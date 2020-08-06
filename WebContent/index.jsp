@@ -10,6 +10,6 @@ location.href="/project_J/ListPostController"
 </script>
 </head>
 <body>
-test 완료쓰
+테스트 완료
 </body>
 </html>
