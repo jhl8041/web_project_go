@@ -34,7 +34,7 @@ public class PostDaoImpl implements PostDao{
 			rs = pstmt.executeQuery();
 	
 			while(rs.next()) {
-				list.add(new Comment( rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4)));
+				list.add(new Comment( rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -53,7 +53,7 @@ public class PostDaoImpl implements PostDao{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
-		String sql = "update post_comments set post_comment_seq=?, post_comment_nickname=?, post_comment_content=?, post_comment_sysdate=sysdate";
+		String sql = "insert into post_comments values(?, ?, ?, sysdate)";
 		
 		try {
 			conn = db.getConnection();

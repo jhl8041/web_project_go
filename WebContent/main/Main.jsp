@@ -14,13 +14,164 @@
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/main/Main.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/main/Main.js" charset="utf-8"></script>
-
 <link href="${pageContext.request.contextPath}/AdminPage/css/sb-admin-2.min.css" rel="stylesheet">
 
-<!-- {"bad":"0","good":"1"} -->
-<!-- {"list_0":"hello 나를 뽑아주는 곳은 어디에ㅠㅠ(2020-08-05)","list_2":"hello 나를 뽑아주는 곳은 어디에ㅠㅠ(2020-08-05)","list_1":"hello 우울할 땐 라면:)(2020-08-05)"} -->
-<!-- {"list_0":"hello: 나를 뽑아주는 곳은 어디에ㅠㅠ(2020-08-05)","list_2":"hello: 나를 뽑아주는 곳은 어디에ㅠㅠ(2020-08-05)","list_1":"hello: 우울할 땐 라면:)(2020-08-05)"} -->
+<script type="text/javascript">
+	function btn_comment(seq, num){
+		var com = document.getElementById("comment_display_" + num);
+		
+		var myObject;
+		
+		if(com.style.display == 'none') {
+			com.style.display = 'block';
+			
+			var total = "";
+			$.ajax({
+				type:"POST",
+				url: "ListCommentController",
+				data: {seq:seq},
+				contenttype: "application/json; charset=utf-8",
+				
+				datatype: "JSON",
+				success: function(obj){
+					var count = Object.keys(JSON.parse(obj)).length;					
+					var result = Object.values(JSON.parse(obj));			
+					
+ 					for(var idx = 0; idx < count; idx++){
+						var nickname = result[idx].nickname;
+						var content = result[idx].content;
+						var date = result[idx].date;
+						
+						var str = nickname + ": " + content + " (" + date + ")";
+						console.log(str.toString());
+
+						total += str;
+						total += "<br>";
+					}
+
+					$("#comments_"+num).empty();
+					$("#comments_"+num).append(total);
+				},
+				error: function(e){
+					alert("error");
+				}
+			});	
+		}
+		else {
+			com.style.display = 'none';
+		}
+	}
+	
+	function btn_good(state, seq){
+		var com = document.getElementById("good_" + seq);
+		var type = 0;
+		
+		if(state == "off") { // 버튼 active
+			com.value = "on";
+			type = 1;
+		}
+		else {				// 버튼 non-active
+			com.value = "off";
+			type = 2;
+		}
+	
+		$.ajax({
+			type:"POST",
+			url: "LikeController",
+			data: {seq:seq, type:type},
+			datatype: "JSON",		
+			contenttype: "application/json; charset=utf-8",
+			success: function(obj){
+				var result = "good: " + JSON.parse(obj).good.toString() + " bad: " + JSON.parse(obj).bad.toString();
+				$("#postLike_"+seq).empty();
+				$("#postLike_"+seq).append(result);
+			},
+			error: function(e){
+				alert("error");
+			}
+		});	
+	}	
+	
+	
+	function btn_bad(state, seq){
+		var com = document.getElementById("bad_" + seq);
+		var type = 0;
+		
+		if(state == "off") { // 버튼 active
+			com.value = "on";
+			type = 3;
+		}
+		else {				// 버튼 non-active
+			com.value = "off";
+			type = 4;
+		}
+		
+		$.ajax({
+			type:"POST",
+			url: "LikeController",
+			data: {seq:seq, type:type},
+			datatype: "JSON",		
+			contenttype: "application/json; charset=utf-8",
+			success: function(obj){
+				var result = "good: " + JSON.parse(obj).good.toString() + " bad: " + JSON.parse(obj).bad.toString();
+				$("#postLike_"+seq).empty();
+				$("#postLike_"+seq).append(result);
+			},
+			error: function(e){
+				alert("에러발생");
+			}
+		});
+	}
+	
+	function write_comment(pseq, mseq, num){
+		var com = document.getElementById("comment_area_" + num);
+		var comment = com.value;	
+		var total = "";
+		
+ 		$.ajax({
+			type:"POST",
+			url: "WriteCommentController",
+			data: {pseq:pseq, mseq:mseq, content:comment},
+			datatype: "JSON",
+			contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
+			success: function(obj){
+				var count = Object.keys(JSON.parse(obj)).length;					
+				var result = Object.values(JSON.parse(obj));			
+				
+					for(var idx = 0; idx < count; idx++){
+					var nickname = result[idx].nickname;
+					var content = result[idx].content;
+					var date = result[idx].date;
+					
+					var str = nickname + ": " + content + " (" + date + ")";
+					console.log(str.toString());
+
+					total += str;
+					total += "<br>";
+				}
+
+				$("#comments_"+num).empty();
+				$("#comments_"+num).append(total);	
+			},
+			error: function(e){
+				alert("에러발생");
+			}
+		});
+		document.getElementById("comment_area_" + num).value = "";
+	}
+	
+	function btn_scrap(mseq, num){
+		var com = document.getElementById( "scrap_img_" + num);
+		
+		if(com.className == "far fa-bell"){
+			com.className = "fas fa-bell";
+			
+		}else{
+			com.className = "far fa-bell";
+		}
+	}
+	
+</script>
 
 </head>
 <body id="page-top">
@@ -418,7 +569,7 @@
 								  <button type="button" class="btn btn-secondary" id="bad_${p.num}" value="off" data-toggle="button" aria-pressed="false" onClick="btn_bad(this.value, ${p.num});">Bad <i class='far fa-angry'></i></button>
 								</div>
 							    
-							  </div>
+							</div>
 							  
 			  	 			  <div class="card-footer bg-danger" id='comment_display_${status.count}' style="margin:auto; display:none;">	
 				 				<table>
@@ -428,8 +579,8 @@
 				 						</td>
 				 					</tr>
 				 					<tr>
-				 						<td><textarea cols="80rem" placeholder="writing..."></textarea></td>
-				 						<td><button type="button" class="btn btn-dark btn-lg" style="font-size:24px;">write</button></td>	
+				 						<td><textarea cols="80rem" id="comment_area_${status.count }" placeholder="writing..."></textarea></td>
+				 						<td><button type="button" class="btn btn-dark btn-lg" style="font-size:24px;" onClick="write_comment(${p.num}, ${userinfo.num}, ${status.count })">write</button></td>	
 				 					</tr>
 			
 				 				</table>

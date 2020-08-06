@@ -8,7 +8,7 @@ $(function(){
 // 회원가입 유효검사
 var pwdgood = true;
 var pwd2good = true;
-var nicknamegood = false;
+var nicknamegood = true;
 function formCheck(){
 	var pwdStr = $("#pwd").val();
 	var pwd2Str = $("#pwd2").val();
@@ -32,7 +32,7 @@ function formCheck(){
 		$("#name").focus();
 		return false;
 	}
-	else if (nicknameStr=="" || nicknamegood==false){
+	else if (nicknamegood==false){
 		alert("닉네임을 확인해주세요");
 		$("#nickname").focus();
 		return false;

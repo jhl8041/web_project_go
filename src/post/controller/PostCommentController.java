@@ -38,10 +38,10 @@ public class PostCommentController extends HttpServlet {
 		String nickname = request.getParameter("nickname");
 		String content = request.getParameter("content");
 		
-		// Ãß°¡
+		// ì¶”ê°€
 		service.addComment(seq, nickname, content);
 		
-		// °»½Å
+		// ê°±ì‹ 
 		ArrayList<Comment> comment = service.selectCommentBySeq(seq);
 		
 		/////////////////////////////////////////////////////////////////////
