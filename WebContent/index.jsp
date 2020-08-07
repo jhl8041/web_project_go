@@ -10,6 +10,6 @@ location.href="/project_J/ListPostController"
 </script>
 </head>
 <body>
-helloworld
+hello ezreal
 </body>
 </html>

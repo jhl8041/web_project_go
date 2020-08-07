@@ -185,26 +185,27 @@
 		$("#scrapbook_list").empty();
 		
 
-//		<a class="dropdown-item d-flex align-items-center" href="#">
-//        <div class="mr-3">
-//          <div class="icon-circle bg-success">
-//            <i class="fas fa-donate text-white"></i>
-//          </div>
-//        </div>
-//       <div>
-//          <div class="small text-gray-500">December 7, 2019</div>
-//          $290.29 has been deposited into your account!
-//        </div>
-//      </a>
+	var total = 
+		"<a class=\"dropdown-item d-flex align-items-center\" href=\"#\">" +
+        "<div class=\"mr-3\">" +
+          "<div class=\"icon-circle bg-success\">" + 
+            "<i class=\"fas fa-donate text-white\"></i>" + 
+          "</div>" +
+        "</div>" +
+       "<div>" +
+          "<div class=\"small text-gray-500\">" + "December 7, 2019" + "</div>" +
+          "$290.29 has been deposited into your account!" +
+        "</div>" +
+      "</a>";
 		
 		
 		for(var i = 0; i < 3; i++){
-			var date ="2020.12.25 ~ 2020.12.30 </div>";
-			var title = "title!!!!!!!!!!!!!!!!!! </div></a>";
+//			var date ="2020.12.25 ~ 2020.12.30 <br></div>";
+//			var title = "title!!!!!!!!!!!!!!!!!! </div></a>";
 			
-			$("#scrapbook_list").append(start);
-			$("#scrapbook_list").append(date);
-			$("#scrapbook_list").append(title);
+//			$("#scrapbook_list").append(start);
+//			$("#scrapbook_list").append(date);
+			$("#scrapbook_list").append(total);
 		}
 		
 		
