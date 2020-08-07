@@ -628,14 +628,14 @@
 						    
 		   							<!-- SCRAP BUTTON -->
 		   							<button type="button" class="btn btn-default" style="color:white; margin-left:85%;" onClick="btn_scrap(${userinfo.num},${p.num },${status.count})">
-										<i class="far fa-bell" id="scrap_img_${statussb.count}" style="font-size:36px;"></i>
+										<i class="far fa-bell" id="scrap_img_${status.count}" style="font-size:36px;"></i>
 									</button>
 <!-- 						###################################################################################################### -->								    
 								    </div>
 								  </div>
 								  <div class="row">
 								  	<div class="col">
-									  	<h5><!-- 기간 -->${p.postPeriodStart} ~ ${p.postPeriodEnd} ${p.num}/${userinfo.num}/${status.count}</h5>
+									  	<h5><!-- 기간 -->${p.postPeriodStart} ~ ${p.postPeriodEnd} ${p.num}/${userinfo.num}/${status.count}/${statussb.count}/</h5>
 								  	</div>
 								  </div>
 							</div>
