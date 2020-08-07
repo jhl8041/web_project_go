@@ -10,6 +10,6 @@ location.href="/project_J/ListPostController"
 </script>
 </head>
 <body>
-hi this is jaehyung
+helloworld
 </body>
 </html>
