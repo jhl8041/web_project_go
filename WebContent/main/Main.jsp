@@ -130,7 +130,7 @@
 		var com = document.getElementById("comment_area_" + num);
 		var comment = com.value;	
 		var total = "";
-		
+		alert("hi");
  		$.ajax({
 			type:"POST",
 			url: "WriteCommentController",
@@ -248,7 +248,7 @@
 	function ischeck_scrapbook(){
 		for(var idx = 0; idx < isChecked.length; idx++){
 			var com = document.getElementById("scrap_img_" + idx);
-			alert(isChecked[idx]);
+			//alert(isChecked[idx]);
 			
 			if(isChecked[idx]) {
 				com.className = "fas fa-bell";
@@ -316,23 +316,15 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="${pageContext.request.contextPath}/MyInfoController">
           <i class="fa fa-fw fa-home"></i>
-          <span>My Info</span>
+          <span>내정보</span>
         </a>
       </li>
       
       <!-- Nav Item: 마이 스케쥴 -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/myInfo.jsp">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/InsertController">
           <i class="fa fa-fw fa-wrench"></i>
-          <span>My Schedule</span>
-        </a>
-      </li>
-      
-      <!-- Nav Item: 커뮤니티 -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/myInfo.jsp">
-          <i class="fa fa-fw fa-user"></i>
-          <span>Community</span>
+          <span>내 스케쥴러</span>
         </a>
       </li>
       
@@ -340,17 +332,32 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="${pageContext.request.contextPath}/myInfo.jsp">
           <i class="fa fa-fw fa-envelope"></i>
-          <span>Study Group</span>
+          <span>스터디 그룹</span>
         </a>
       </li>
-
+      
       <!-- 가로줄 -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item: 상태이미지/메세지 -->
-      <li class="nav-item" style="text-align:center">
-       	<a><img src="image/image15.jpg" width="90%" height="100%"></a>
-       	<a class="text-white">ㄴr는ㄱr끔눙물을 흘린ㄷr..</a>
+      <hr class="sidebar-divider d-none d-md-block">
+      
+     <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fa fa-fw fa-user"></i>
+          <span>커뮤니티</span>
+         </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h3 class="collapse-header">지역:</h3>
+            <a class="collapse-item" href='${pageContext.request.contextPath }/ListController?board_code=a&pageNum=1'>수도권</a>
+            <a class="collapse-item" href='${pageContext.request.contextPath }/ListController?board_code=b&pageNum=1'>비수도권</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">전공:</h6>
+            <a class="collapse-item" href='${pageContext.request.contextPath }/ListController?board_code=c&pageNum=1'>문과</a>
+            <a class="collapse-item" href='${pageContext.request.contextPath }/ListController?board_code=d&pageNum=1'>이과</a>
+            <h6 class="collapse-header">기타:</h6>
+            <a class="collapse-item" href='${pageContext.request.contextPath }/ListController?board_code=e&pageNum=1'>자유게시판</a>
+          </div>
+        </div>
       </li>
 
       <!-- 가로줄 -->
@@ -604,7 +611,7 @@
 
 									<c:set var="flag" value="false"/>			   										 
 									<c:if test="${not flag}">
-										<c:forEach var="sb" items="${sblist}" varStatus="status">
+										<c:forEach var="sb" items="${sblist}" varStatus="statussb">
 											<c:if test="${p.num eq sb.postSeq}">
 												<c:set var="flag" value="true"/>
 												<script type="text/javascript">
@@ -614,19 +621,21 @@
 										</c:forEach>
 									</c:if>
 									<c:if test="${not flag }">
+									<script type="text/javascript">
 										isChecked.push(0);
+									</script>
 									</c:if>
 						    
 		   							<!-- SCRAP BUTTON -->
 		   							<button type="button" class="btn btn-default" style="color:white; margin-left:85%;" onClick="btn_scrap(${userinfo.num},${p.num },${status.count})">
-										<i class="far fa-bell" id="scrap_img_${status.count}" style="font-size:36px;"></i>
+										<i class="far fa-bell" id="scrap_img_${statussb.count}" style="font-size:36px;"></i>
 									</button>
 <!-- 						###################################################################################################### -->								    
 								    </div>
 								  </div>
 								  <div class="row">
 								  	<div class="col">
-									  	<h5><!-- 기간 -->${p.postPeriodStart} ~ ${p.postPeriodEnd}</h5>
+									  	<h5><!-- 기간 -->${p.postPeriodStart} ~ ${p.postPeriodEnd} ${p.num}/${userinfo.num}/${status.count}</h5>
 								  	</div>
 								  </div>
 							</div>
@@ -663,7 +672,7 @@
 				 					</tr>
 				 					<tr>
 				 						<td><textarea cols="80rem" id="comment_area_${status.count }" placeholder="writing..."></textarea></td>
-				 						<td><button type="button" class="btn btn-dark btn-lg" style="font-size:24px;" onClick="write_comment(${p.num}, ${userinfo.num}, ${status.count })">write</button></td>	
+				 						<td><button type="button" class="btn btn-dark btn-lg" style="font-size:24px;" onClick="write_comment(${p.num}, ${userinfo.num}, ${status.count})">write</button></td>	
 				 					</tr>
 			
 				 				</table>
@@ -682,7 +691,6 @@
 				ischeck_scrapbook();
 			</script>
 			
-
 			<!-- Footer -->
 			<footer class="sticky-footer bg-white">
 				<div class="container my-auto">

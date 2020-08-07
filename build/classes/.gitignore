@@ -1,26 +1,8 @@
-<<<<<<< HEAD
 /conn/
-/controller/
-/dao/
-/service/
+/member/
+/post/
 /scrapbook/
 /model/
-=======
-<<<<<<< HEAD
-=======
-/conn/
->>>>>>> c3bfae91f4bb7ada535c008f50484c8de3dbf1fa
-/admin/
-/board/
-/board_comment/
-/chat/
-<<<<<<< HEAD
-/conn/
-=======
->>>>>>> c3bfae91f4bb7ada535c008f50484c8de3dbf1fa
-/jobpost/
-/mail/
-/member/
-/model/
-/post/
->>>>>>> d07b2d082d0a201fd305a5c4cba991cec1253459
+/cal/
+/calpost/
+/comm/

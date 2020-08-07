@@ -3,12 +3,12 @@ package model;
 import java.sql.Date;
 
 public class ScrapBook {
-	private int userSeq;			// ���� seq
-	private int postSeq;			// ���� seq
-	private String postName;		// ���� �̸�
-	private String postLink;		// ���� ��ũ
-	private Date postPeriodStart;	// ���� ������
-	private Date postPeriodEnd;		// ���� ������
+	private int userSeq;		
+	private int postSeq;			
+	private String postName;		
+	private String postLink;		
+	private Date postPeriodStart;	
+	private Date postPeriodEnd;		
 	
 	public ScrapBook() {}
 	

@@ -1,0 +1,50 @@
+body{
+	background: #0F3037;
+	background: linear-gradient(
+		to right,
+		#2C5364,
+		#203A43,
+		#0F2027
+	 );
+}
+
+.container{
+	display:flex;
+	justify-content:center;
+	margin-top: 12em;
+}
+
+.inner{
+	text-align:center;
+	color: whitesmoke;
+	overflow: hidden;
+	padding: 0.4em;
+}
+
+.inner > h1{
+	font-size:3.5em;
+	animation: Slide_Up 1.4s ease;
+}
+.inner>p{
+	font-size:1.2em;
+	animation: Slide_Up 2.1s ease;
+}
+.inner > button{
+	margin-top:2em;
+	padding:1em 2.5em;
+	font-size:1em;
+	border-radius:4em;
+	border:none;
+	animation: Slide_Up 2.3s ease;
+}
+
+
+@keyframes Slide_Up{
+	0% {
+	transform: translateY(250px);
+	}
+	100% {
+	transform: translateY(0px);
+	}
+
+}

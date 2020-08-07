@@ -1,3 +1,7 @@
+
+
+
+
 //회원정보
 select * from MEMBER_INFO;
 drop table member_Info;
@@ -114,3 +118,29 @@ board_comment_parent_seq number references board(board_seq) on delete cascade
 drop sequence board_seq;
 create sequence board_seq;
 create sequence board_comments_seq;
+
+
+create table post_scrap(
+scrap_user_seq number 
+,scrap_parent_seq number
+,scrap_post_name varchar2(500) 
+,scrap_post_link varchar2(1000) 
+,scrap_post_period_start date
+,scrap_post_period_end date
+);
+
+create sequence seq_seq;
+create table calboard(
+seq number
+,id varchar2(20)
+,title varchar2(40)
+,content varchar2(400)
+,mdate varchar2(40)
+,regdate date);
+
+create table postboard(seq number
+,id varchar2(20)
+,postname varchar2(100)
+,posturl varchar2(400)
+,sdate date
+,edate date);
