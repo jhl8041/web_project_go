@@ -9,7 +9,7 @@ public class DBConnect {
 	private Connection conn = null;
 	
 	String jdbc_driver = "oracle.jdbc.driver.OracleDriver";
-	String jdbc_url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String jdbc_url = "jdbc:oracle:thin:@192.168.0.14:1521:xe";
 
 	private DBConnect() {
 		// TODO Auto-generated constructor stub

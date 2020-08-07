@@ -171,6 +171,77 @@
 		}
 	}
 	
+	function btn_scrapbook(mseq){
+		var com = document.getElementById("scrapbook_list");
+		var start = "<a class=\"dropdown-item d-flex align-items-center\" href=\"#\">" +  
+						"<div class=\"mr-3\">" +
+							"<div class=\"icon-circle bg-success\">" + 
+								"<i class=\"fas fa-donate text-white\"></i>" +
+							"</div>" +
+						"</div>" +
+					"<div>" +
+						"<div class=\"small text-gray-500\">";
+
+		$("#scrapbook_list").empty();
+		
+
+//		<a class="dropdown-item d-flex align-items-center" href="#">
+//        <div class="mr-3">
+//          <div class="icon-circle bg-success">
+//            <i class="fas fa-donate text-white"></i>
+//          </div>
+//        </div>
+//       <div>
+//          <div class="small text-gray-500">December 7, 2019</div>
+//          $290.29 has been deposited into your account!
+//        </div>
+//      </a>
+		
+		
+		for(var i = 0; i < 3; i++){
+			var date ="2020.12.25 ~ 2020.12.30 </div>";
+			var title = "title!!!!!!!!!!!!!!!!!! </div></a>";
+			
+			$("#scrapbook_list").append(start);
+			$("#scrapbook_list").append(date);
+			$("#scrapbook_list").append(title);
+		}
+		
+		
+/*  		$.ajax({
+			type:"POST",
+			url: "ListScrapController",
+			data: {mseq:mseq},
+			datatype: "JSON",
+			contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
+			success: function(obj){
+				
+				alert(obj);
+ 				var count = Object.keys(JSON.parse(obj)).length;					
+				var result = Object.values(JSON.parse(obj));			
+				
+					for(var idx = 0; idx < count; idx++){
+					var nickname = result[idx].nickname;
+					var content = result[idx].content;
+					var date = result[idx].date;
+					
+					var str = nickname + ": " + content + " (" + date + ")";
+					console.log(str.toString());
+
+					total += str;
+					total += "<br>"; 
+				}
+
+ 				$("#comments_"+num).empty();
+				$("#comments_"+num).append(total);	 
+			},
+			error: function(e){
+				alert("에러발생");
+			}
+		}); */
+		
+	}
+	
 </script>
 
 </head>
@@ -335,9 +406,18 @@
 								</form>
 							</div></li>
 
+
+
+
+<!-- 						###################################################################################################### -->
+<!-- 						###################################################################################################### -->
+<!-- 						###################################################################################################### -->
+
+
+
 						<!-- Nav Item - Alerts -->
 			            <li class="nav-item dropdown no-arrow mx-1">
-			              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="btn_scrapbook(${userinfo.num})">
 			                <i class="fas fa-bell fa-fw"></i>
 			                <!-- Counter - Alerts -->
 			                <span class="badge badge-danger badge-counter">3+</span>
@@ -345,8 +425,10 @@
 			              <!-- Dropdown - Alerts -->
 			              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
 			                <h6 class="dropdown-header">
-			                  Alerts Center
+			                  Scrapbook
 			                </h6>
+<!-- 			          		########################################################## -->
+			                <div id="scrapbook_list">
 			                <a class="dropdown-item d-flex align-items-center" href="#">
 			                  <div class="mr-3">
 			                    <div class="icon-circle bg-primary">
@@ -358,6 +440,8 @@
 			                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
 			                  </div>
 			                </a>
+			                
+			                
 			                <a class="dropdown-item d-flex align-items-center" href="#">
 			                  <div class="mr-3">
 			                    <div class="icon-circle bg-success">
@@ -369,6 +453,8 @@
 			                    $290.29 has been deposited into your account!
 			                  </div>
 			                </a>
+			                
+			                
 			                <a class="dropdown-item d-flex align-items-center" href="#">
 			                  <div class="mr-3">
 			                    <div class="icon-circle bg-warning">
@@ -380,6 +466,10 @@
 			                    Spending Alert: We've noticed unusually high spending for your account.
 			                  </div>
 			                </a>
+			                
+			                </div>
+			                
+			                
 			                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
 			              </div>
 			            </li>
