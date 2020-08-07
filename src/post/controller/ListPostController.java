@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.service.MemberService;
 import member.service.MemberServiceImpl;
-import model.Comment;
 import model.JobPost;
-import model.Member;
 import model.ScrapBook;
 import post.service.PostService;
 import post.service.PostServiceImpl;
@@ -38,13 +36,15 @@ public class ListPostController extends HttpServlet {
 		MemberService mservice = new MemberServiceImpl();
 		ScrapService sbservice = new ScrapServiceImpl();
 		
+		
+		ArrayList<ScrapBook> sblist = new ArrayList<ScrapBook>();
 		String id = request.getParameter("id");
 		int sbcount = 0;
 		
 		// scrapbook 개수
 		if(!id.equals("0")) {
 			int mseq = mservice.getMember(id).getNum();	
-			ArrayList<ScrapBook> sblist = sbservice.list(mseq);			
+			sblist = sbservice.list(mseq);			
 			sbcount = sblist.size();
 		}
 
@@ -53,7 +53,7 @@ public class ListPostController extends HttpServlet {
 		 	
 		request.setAttribute("posts", list);
 		request.setAttribute("sbCount", sbcount);
-		
+		request.setAttribute("sblist", sblist);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/main/Main.jsp");
 		if(dispatcher != null) {

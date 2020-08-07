@@ -2,7 +2,6 @@ package scrapbook.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,51 +9,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import model.ScrapBook;
+import jobpost.service.JobPostService;
+import jobpost.service.JobPostServiceImpl;
+import model.JobPost;
 import scrapbook.service.ScrapService;
 import scrapbook.service.ScrapServiceImpl;
 
-@WebServlet("/ListScrapController")
-public class ListScrapController extends HttpServlet {
+/**
+ * Servlet implementation class AddScrapController
+ */
+@WebServlet("/AddScrapController")
+public class AddScrapController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ListScrapController() {
+    public AddScrapController() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("euc-kr");
-		response.setContentType("text/html; charset=EUC-KR");
+		response.setContentType("text/html;charset=EUC-KR");
 		response.setCharacterEncoding("euc-kr");
 		
 		int mseq = Integer.parseInt(request.getParameter("mseq"));
+		int pseq = Integer.parseInt(request.getParameter("pseq"));
+				
+		// 공고추가
+		ScrapService sbservice = new ScrapServiceImpl();
+		JobPostService pservice = new JobPostServiceImpl();
+		JobPost post = pservice.getPost(pseq);
 		
-		ScrapService service = new ScrapServiceImpl();
+		sbservice.add(mseq, post);
 		
-		ArrayList<ScrapBook> scraplist = service.list(mseq);
-		
-		////////////////////////////////////////////////
+		// 공고갯수 업데이트
+		int count = sbservice.list(mseq).size();
+
 		PrintWriter out = response.getWriter(); 
+		JSONObject obj = new JSONObject();
+		obj.put("count", count);
 		
-		JSONArray total = new JSONArray();
-		
-		for(ScrapBook one : scraplist) {
-			JSONObject obj = new JSONObject();
-			obj.put("name", one.getPostName());
-			obj.put("start", one.getPostPeriodStart().toString());
-			obj.put("end", one.getPostPeriodEnd().toString());
-			obj.put("link", one.getPostLink().toString());
-			
-			total.add(obj);
-		}
-		out.print(total);
+		out.print(obj);
 	}
 
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

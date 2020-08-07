@@ -16,7 +16,9 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/main/Main.css">
 <link href="${pageContext.request.contextPath}/AdminPage/css/sb-admin-2.min.css" rel="stylesheet">
 
-<script type="text/javascript">
+<script type="text/javascript" charset="UTF-8">
+	var isChecked = new Array();
+
 	function btn_comment(seq, num){
 		var com = document.getElementById("comment_display_" + num);
 		
@@ -160,20 +162,7 @@
 				alert("err");
 			}
 		});
-
-	 		
 		document.getElementById("comment_area_" + num).value = "";
-	}
-	
-	function btn_scrap(mseq, num){
-		var com = document.getElementById( "scrap_img_" + num);
-		
-		if(com.className == "far fa-bell"){
-			com.className = "fas fa-bell";
-			
-		}else{
-			com.className = "far fa-bell";
-		}
 	}
 	
 	function btn_scrapbook(mseq){
@@ -216,11 +205,58 @@
 					}
 				},
 				error: function(e){
-					alert("에러발생");
+					alert("err");
 				}
 			});
 		}		
 	}
+	
+	function btn_scrap(mseq, pseq, num){
+
+		var com = document.getElementById("scrap_img_" + num);
+		
+		var count = "";
+		var path = "AddScrapController";
+		
+		if(com.className == "far fa-bell"){	// 스크랩에 공고추가
+			com.className = "fas fa-bell";
+		}
+		else{								// 스크랩에 공고제거
+			com.className = "far fa-bell";
+			path = "DelScrapController";
+		}
+		
+		$.ajax({
+			type:"POST",
+			url: path,
+			data: {mseq:mseq, pseq:pseq},
+			datatype: "JSON",		
+			contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
+			success: function(obj){
+				count = JSON.parse(obj).count;
+				console.log(count);
+			
+				$("#scrap_count").empty();
+				$("#scrap_count").append(count.toString());
+			},
+			error: function(e){
+				alert("err");
+			}
+		});	
+	}
+	
+	function ischeck_scrapbook(){
+		for(var idx = 0; idx < isChecked.length; idx++){
+			var com = document.getElementById("scrap_img_" + idx);
+			alert(isChecked[idx]);
+			
+			if(isChecked[idx]) {
+				com.className = "fas fa-bell";
+				isChecked[idx] = 0;
+			}
+		}
+	}
+	
 	
 </script>
 
@@ -386,17 +422,12 @@
 								</form>
 							</div></li>
 
-<!-- 						###################################################################################################### -->
-<!-- 						###################################################################################################### -->
-<!-- 						###################################################################################################### -->
-
-
 						<!-- Nav Item - Alerts -->
 			            <li class="nav-item dropdown no-arrow mx-1">
 			              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="btn_scrapbook(${userinfo.num})">
 			                <i class="fas fa-bell fa-fw"></i>
 			                <!-- Counter - Alerts -->
-			                <span class="badge badge-danger badge-counter">${sbCount}</span>
+			                <span class="badge badge-danger badge-counter" id="scrap_count">${sbCount}</span>
 			              </a>
 			              <!-- Dropdown - Alerts -->
 			              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -554,17 +585,43 @@
 						</div>
 					</div>
 					
+<!-- 						###################################################################################################### -->
+<!-- 						###################################################################################################### -->
+<!-- 						###################################################################################################### -->
+					
 					<!-- 공고 CARD -->
+
+					
 					<c:forEach var="p" items="${posts}" varStatus="status">
 					<div class="row justify-content-md-center">
 						<div class="card bg-danger shadow" style="min-width: 800px; margin-bottom: 50px;">
 							<div class="card-header bg-danger py-3 text-white">
 								  <div class="row">
-								    <div class="col"><h3>${p.postCorpName}</h3></div>
+								    
+								    <div class="col"><h3>${p.postName}</h3></div>
 								    <div class="col">
-			   							<button type="button" class="btn btn-default" style="color:white; margin-left:85%;">
-											<i class='far fa-bell' style="font-size:36px;"></i>
-										</button>
+<!-- 						###################################################################################################### -->		
+
+									<c:set var="flag" value="false"/>			   										 
+									<c:if test="${not flag}">
+										<c:forEach var="sb" items="${sblist}" varStatus="status">
+											<c:if test="${p.num eq sb.postSeq}">
+												<c:set var="flag" value="true"/>
+												<script type="text/javascript">
+													isChecked.push(1);												
+												</script>
+											</c:if>
+										</c:forEach>
+									</c:if>
+									<c:if test="${not flag }">
+										isChecked.push(0);
+									</c:if>
+						    
+		   							<!-- SCRAP BUTTON -->
+		   							<button type="button" class="btn btn-default" style="color:white; margin-left:85%;" onClick="btn_scrap(${userinfo.num},${p.num },${status.count})">
+										<i class="far fa-bell" id="scrap_img_${status.count}" style="font-size:36px;"></i>
+									</button>
+<!-- 						###################################################################################################### -->								    
 								    </div>
 								  </div>
 								  <div class="row">
@@ -618,9 +675,13 @@
 
 				</div>
 				<!-- /.container-fluid -->
-
 			</div>
 			<!-- End of Main Content -->
+			
+			<script type="text/javascript">				
+				ischeck_scrapbook();
+			</script>
+			
 
 			<!-- Footer -->
 			<footer class="sticky-footer bg-white">
@@ -631,7 +692,6 @@
 				</div>
 			</footer>
 			<!-- End of Footer -->
-
 		</div>
 		<!-- End of Content Wrapper -->
 		

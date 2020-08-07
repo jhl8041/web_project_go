@@ -3,12 +3,12 @@ package model;
 import java.sql.Date;
 
 public class ScrapBook {
-	private int userSeq;			// À¯Àú seq
-	private int postSeq;			// °ø°í seq
-	private String postName;		// °ø°í ÀÌ¸§
-	private String postLink;		// °ø°í ¸µÅ©
-	private Date postPeriodStart;	// °ø°í ½ÃÀÛÀÏ
-	private Date postPeriodEnd;		// °ø°í ¸¶°¨ÀÏ
+	private int userSeq;			// ï¿½ï¿½ï¿½ï¿½ seq
+	private int postSeq;			// ï¿½ï¿½ï¿½ï¿½ seq
+	private String postName;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	private String postLink;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©
+	private Date postPeriodStart;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Date postPeriodEnd;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	public ScrapBook() {}
 	
@@ -22,8 +22,6 @@ public class ScrapBook {
 		this.postPeriodStart = postPeriodStart;
 		this.postPeriodEnd = postPeriodEnd;
 	}
-
-	
 
 	public int getUserSeq() {
 		return userSeq;

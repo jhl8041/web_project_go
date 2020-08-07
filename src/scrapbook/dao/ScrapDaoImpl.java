@@ -1,13 +1,13 @@
 package scrapbook.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import conn.DBConnect;
+import model.JobPost;
 import model.ScrapBook;
 
 public class ScrapDaoImpl implements ScrapDao{
@@ -48,15 +48,59 @@ public class ScrapDaoImpl implements ScrapDao{
 	}
 
 	@Override
-	public void insert(int userSeq, int postSeq) {
+	public void insert(int userSeq, JobPost post) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 		
-		
+		String sql = "insert into post_scrap values(?,?,?,?,?,?)";
+		try {
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userSeq);
+			pstmt.setInt(2, post.getNum());
+			pstmt.setString(3, post.getPostName());
+			pstmt.setString(4, post.getPostUrl());
+			pstmt.setDate(5, post.getPostPeriodStart());
+			pstmt.setDate(6, post.getPostPeriodEnd());
+			
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void delete(int userSeq, int postSeq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 		
+		String sql = "delete post_scrap where scrap_user_seq=? and scrap_parent_seq=?";
 		
+		try {
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userSeq);
+			pstmt.setInt(2, postSeq);
+			
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
 }

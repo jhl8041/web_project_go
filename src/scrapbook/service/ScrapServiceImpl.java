@@ -2,9 +2,8 @@ package scrapbook.service;
 
 import java.util.ArrayList;
 
+import model.JobPost;
 import model.ScrapBook;
-import post.dao.PostDao;
-import post.dao.PostDaoImpl;
 import scrapbook.dao.ScrapDao;
 import scrapbook.dao.ScrapDaoImpl;
 
@@ -16,8 +15,8 @@ public class ScrapServiceImpl implements ScrapService{
 	}
 	
 	@Override
-	public void add(int userSeq, int postSeq) {
-		dao.insert(userSeq, postSeq);
+	public void add(int userSeq, JobPost post) {
+		dao.insert(userSeq, post);
 	}
 
 	@Override
