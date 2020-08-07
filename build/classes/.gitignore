@@ -1,8 +1,15 @@
+<<<<<<< HEAD
+=======
+/conn/
+>>>>>>> c3bfae91f4bb7ada535c008f50484c8de3dbf1fa
 /admin/
 /board/
 /board_comment/
 /chat/
+<<<<<<< HEAD
 /conn/
+=======
+>>>>>>> c3bfae91f4bb7ada535c008f50484c8de3dbf1fa
 /jobpost/
 /mail/
 /member/
