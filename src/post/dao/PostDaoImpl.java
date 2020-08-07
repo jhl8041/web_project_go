@@ -34,7 +34,7 @@ public class PostDaoImpl implements PostDao{
 			rs = pstmt.executeQuery();
 	
 			while(rs.next()) {
-				list.add(new Comment( rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
+				list.add(new Comment(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();

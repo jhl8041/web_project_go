@@ -6,7 +6,7 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <script>
-location.href="/project_J/ListPostController"
+location.href="/project_J/ListPostController?id=0"
 </script>
 </head>
 <body>

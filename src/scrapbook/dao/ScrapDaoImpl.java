@@ -1,6 +1,7 @@
 package scrapbook.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class ScrapDaoImpl implements ScrapDao{
 		ArrayList<ScrapBook> list = new ArrayList<ScrapBook>();
 		ResultSet rs = null;
 		
-		String sql = "selet * from post_scrap where scrap_user_seq=?";
+		String sql = "select * from post_scrap where scrap_user_seq=?";
 		
 		try {
 			conn = db.getConnection();
@@ -31,7 +32,7 @@ public class ScrapDaoImpl implements ScrapDao{
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				list.add(new ScrapBook(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getString(6)));
+				list.add(new ScrapBook(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getDate(6)));
 			}
 			
 		}catch (SQLException e) {
@@ -43,7 +44,7 @@ public class ScrapDaoImpl implements ScrapDao{
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return list;
 	}
 
 	@Override

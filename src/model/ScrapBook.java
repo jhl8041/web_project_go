@@ -6,23 +6,25 @@ public class ScrapBook {
 	private int userSeq;			// 유저 seq
 	private int postSeq;			// 공고 seq
 	private String postName;		// 공고 이름
+	private String postLink;		// 공고 링크
 	private Date postPeriodStart;	// 공고 시작일
 	private Date postPeriodEnd;		// 공고 마감일
-	private String postLink;		// 공고 링크
 	
 	public ScrapBook() {}
-
-	public ScrapBook(int userSeq, int postSeq, String postName, Date postPeriodStart, Date postPeriodEnd,
-			String postLink) {
+	
+	public ScrapBook(int userSeq, int postSeq, String postName, String postLink, Date postPeriodStart,
+			Date postPeriodEnd) {
 		super();
 		this.userSeq = userSeq;
 		this.postSeq = postSeq;
 		this.postName = postName;
+		this.postLink = postLink;
 		this.postPeriodStart = postPeriodStart;
 		this.postPeriodEnd = postPeriodEnd;
-		this.postLink = postLink;
 	}
+
 	
+
 	public int getUserSeq() {
 		return userSeq;
 	}
@@ -47,6 +49,14 @@ public class ScrapBook {
 		this.postName = postName;
 	}
 
+	public String getPostLink() {
+		return postLink;
+	}
+
+	public void setPostLink(String postLink) {
+		this.postLink = postLink;
+	}
+
 	public Date getPostPeriodStart() {
 		return postPeriodStart;
 	}
@@ -63,11 +73,11 @@ public class ScrapBook {
 		this.postPeriodEnd = postPeriodEnd;
 	}
 
-	public String getPostLink() {
-		return postLink;
+	@Override
+	public String toString() {
+		return "ScrapBook [userSeq=" + userSeq + ", postSeq=" + postSeq + ", postName=" + postName + ", postLink="
+				+ postLink + ", postPeriodStart=" + postPeriodStart + ", postPeriodEnd=" + postPeriodEnd + "]";
 	}
 
-	public void setPostLink(String postLink) {
-		this.postLink = postLink;
-	}	
+	
 }

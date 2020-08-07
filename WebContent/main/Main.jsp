@@ -34,7 +34,9 @@
 				
 				datatype: "JSON",
 				success: function(obj){
-					var count = Object.keys(JSON.parse(obj)).length;					
+					var count = Object.keys(JSON.parse(obj)).length;	
+					console.log(count);
+					console.log(obj);
 					var result = Object.values(JSON.parse(obj));			
 					
  					for(var idx = 0; idx < count; idx++){
@@ -92,7 +94,6 @@
 		});	
 	}	
 	
-	
 	function btn_bad(state, seq){
 		var com = document.getElementById("bad_" + seq);
 		var type = 0;
@@ -118,7 +119,7 @@
 				$("#postLike_"+seq).append(result);
 			},
 			error: function(e){
-				alert("에러발생");
+				alert("err");
 			}
 		});
 	}
@@ -134,6 +135,7 @@
 			data: {pseq:pseq, mseq:mseq, content:comment},
 			datatype: "JSON",
 			contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
+			
 			success: function(obj){
 				var count = Object.keys(JSON.parse(obj)).length;					
 				var result = Object.values(JSON.parse(obj));			
@@ -153,10 +155,13 @@
 				$("#comments_"+num).empty();
 				$("#comments_"+num).append(total);	
 			},
+			
 			error: function(e){
-				alert("에러발생");
+				alert("err");
 			}
 		});
+
+	 		
 		document.getElementById("comment_area_" + num).value = "";
 	}
 	
@@ -172,75 +177,49 @@
 	}
 	
 	function btn_scrapbook(mseq){
-		var com = document.getElementById("scrapbook_list");
-		var start = "<a class=\"dropdown-item d-flex align-items-center\" href=\"#\">" +  
-						"<div class=\"mr-3\">" +
-							"<div class=\"icon-circle bg-success\">" + 
-								"<i class=\"fas fa-donate text-white\"></i>" +
-							"</div>" +
-						"</div>" +
-					"<div>" +
-						"<div class=\"small text-gray-500\">";
-
-		$("#scrapbook_list").empty();
-		
-
-	var total = 
-		"<a class=\"dropdown-item d-flex align-items-center\" href=\"#\">" +
-        "<div class=\"mr-3\">" +
-          "<div class=\"icon-circle bg-success\">" + 
-            "<i class=\"fas fa-donate text-white\"></i>" + 
-          "</div>" +
-        "</div>" +
-       "<div>" +
-          "<div class=\"small text-gray-500\">" + "December 7, 2019" + "</div>" +
-          "$290.29 has been deposited into your account!" +
-        "</div>" +
-      "</a>";
-		
-		
-		for(var i = 0; i < 3; i++){
-//			var date ="2020.12.25 ~ 2020.12.30 <br></div>";
-//			var title = "title!!!!!!!!!!!!!!!!!! </div></a>";
+		if(mseq == null) alert("please login :)");
+		else{
+			$("#scrapbook_list").empty();
 			
-//			$("#scrapbook_list").append(start);
-//			$("#scrapbook_list").append(date);
-			$("#scrapbook_list").append(total);
-		}
-		
-		
-/*  		$.ajax({
-			type:"POST",
-			url: "ListScrapController",
-			data: {mseq:mseq},
-			datatype: "JSON",
-			contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
-			success: function(obj){
-				
-				alert(obj);
- 				var count = Object.keys(JSON.parse(obj)).length;					
-				var result = Object.values(JSON.parse(obj));			
-				
-					for(var idx = 0; idx < count; idx++){
-					var nickname = result[idx].nickname;
-					var content = result[idx].content;
-					var date = result[idx].date;
+			$.ajax({
+				type:"POST",
+				url: "ListScrapController",
+				data: {mseq:mseq},
+				datatype: "JSON",
+				contenttype: "application/json; application/x-www-form-urlencoded; charset=utf-8",
+				success: function(obj){
+					var size = Object.keys(JSON.parse(obj)).length;			
+					var result = Object.values(JSON.parse(obj));			
 					
-					var str = nickname + ": " + content + " (" + date + ")";
-					console.log(str.toString());
+					for(var idx = 0; idx < size; idx++){
+						var name = result[idx].name.toString();
+						var start = result[idx].start.toString();
+						var end = result[idx].end.toString();
+						var link = result[idx].link.toString();
 
-					total += str;
-					total += "<br>"; 
+						var period = start + "~" + end;
+
+						var total = 
+							"<a class=\"dropdown-item d-flex align-items-center\" href=\"" + link +"\">" +
+					        "<div class=\"mr-3\">" +
+					          "<div class=\"icon-circle bg-success\">" + 
+					            "<i class=\"fas fa-donate text-white\"></i>" + 
+					          "</div>" +
+					        "</div>" +
+					       "<div>" +
+					          "<div class=\"small text-gray-500\">" + period + "</div>" +
+					          name +
+					        "</div>" +
+					      "</a>";
+						
+						$("#scrapbook_list").append(total);  
+					}
+				},
+				error: function(e){
+					alert("에러발생");
 				}
-
- 				$("#comments_"+num).empty();
-				$("#comments_"+num).append(total);	 
-			},
-			error: function(e){
-				alert("에러발생");
-			}
-		}); */
-		
+			});
+		}		
 	}
 	
 </script>
@@ -407,13 +386,9 @@
 								</form>
 							</div></li>
 
-
-
-
 <!-- 						###################################################################################################### -->
 <!-- 						###################################################################################################### -->
 <!-- 						###################################################################################################### -->
-
 
 
 						<!-- Nav Item - Alerts -->
@@ -421,56 +396,16 @@
 			              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="btn_scrapbook(${userinfo.num})">
 			                <i class="fas fa-bell fa-fw"></i>
 			                <!-- Counter - Alerts -->
-			                <span class="badge badge-danger badge-counter">3+</span>
+			                <span class="badge badge-danger badge-counter">${sbCount}</span>
 			              </a>
 			              <!-- Dropdown - Alerts -->
 			              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
 			                <h6 class="dropdown-header">
 			                  Scrapbook
 			                </h6>
-<!-- 			          		########################################################## -->
 			                <div id="scrapbook_list">
-			                <a class="dropdown-item d-flex align-items-center" href="#">
-			                  <div class="mr-3">
-			                    <div class="icon-circle bg-primary">
-			                      <i class="fas fa-file-alt text-white"></i>
-			                    </div>
-			                  </div>
-			                  <div>
-			                    <div class="small text-gray-500">December 12, 2019</div>
-			                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-			                  </div>
-			                </a>
-			                
-			                
-			                <a class="dropdown-item d-flex align-items-center" href="#">
-			                  <div class="mr-3">
-			                    <div class="icon-circle bg-success">
-			                      <i class="fas fa-donate text-white"></i>
-			                    </div>
-			                  </div>
-			                  <div>
-			                    <div class="small text-gray-500">December 7, 2019</div>
-			                    $290.29 has been deposited into your account!
-			                  </div>
-			                </a>
-			                
-			                
-			                <a class="dropdown-item d-flex align-items-center" href="#">
-			                  <div class="mr-3">
-			                    <div class="icon-circle bg-warning">
-			                      <i class="fas fa-exclamation-triangle text-white"></i>
-			                    </div>
-			                  </div>
-			                  <div>
-			                    <div class="small text-gray-500">December 2, 2019</div>
-			                    Spending Alert: We've noticed unusually high spending for your account.
-			                  </div>
-			                </a>
-			                
+			                	<!-- SCRAPBOOK LIST -->
 			                </div>
-			                
-			                
 			                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
 			              </div>
 			            </li>

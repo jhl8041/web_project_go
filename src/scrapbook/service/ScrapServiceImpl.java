@@ -3,6 +3,7 @@ package scrapbook.service;
 import java.util.ArrayList;
 
 import model.ScrapBook;
+import post.dao.PostDao;
 import post.dao.PostDaoImpl;
 import scrapbook.dao.ScrapDao;
 import scrapbook.dao.ScrapDaoImpl;

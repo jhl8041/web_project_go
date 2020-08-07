@@ -17,41 +17,41 @@ import model.ScrapBook;
 import scrapbook.service.ScrapService;
 import scrapbook.service.ScrapServiceImpl;
 
-/**
- * Servlet implementation class ListScrapController
- */
 @WebServlet("/ListScrapController")
 public class ListScrapController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public ListScrapController() {
         super();
-
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("euc-kr");
+		response.setContentType("text/html; charset=EUC-KR");
+		response.setCharacterEncoding("euc-kr");
+		
 		int mseq = Integer.parseInt(request.getParameter("mseq"));
 		
 		ScrapService service = new ScrapServiceImpl();
 		
-		ArrayList<ScrapBook> list = service.list(mseq);
+		ArrayList<ScrapBook> scraplist = service.list(mseq);
 		
 		////////////////////////////////////////////////
-		PrintWriter out = response.getWriter();
+		PrintWriter out = response.getWriter(); 
 		
 		JSONArray total = new JSONArray();
 		
-		int idx = 0;
-		for(ScrapBook one : list) {
+		for(ScrapBook one : scraplist) {
 			JSONObject obj = new JSONObject();
 			obj.put("name", one.getPostName());
-			obj.put("start", one.getPostPeriodStart());
-			obj.put("end", one.getPostPeriodEnd());
-			obj.put("link", one.getPostLink());
+			obj.put("start", one.getPostPeriodStart().toString());
+			obj.put("end", one.getPostPeriodEnd().toString());
+			obj.put("link", one.getPostLink().toString());
 			
 			total.add(obj);
 		}
 		out.print(total);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

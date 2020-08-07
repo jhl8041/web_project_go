@@ -30,7 +30,7 @@ public class LogoutController extends HttpServlet {
 		
 		session.invalidate();
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListPostController");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListPostController?id=0");
 		if(dispatcher != null) {
 			dispatcher.forward(request, response);
 		}		

@@ -1,0 +1,1 @@
+select * from post_scrap where scrap_user_seq=1;

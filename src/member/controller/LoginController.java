@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
 		String path = "/member/LoginForm.jsp";
 
 		if(flag) {
-			path = "ListPostController";
+			path = "ListPostController?id=" + id;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);		

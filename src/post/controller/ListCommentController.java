@@ -52,7 +52,6 @@ public class ListCommentController extends HttpServlet{
 		
 		JSONArray total = new JSONArray();
 		
-		int idx = 0;
 		for(Comment one : list) { 
 			JSONObject obj = new JSONObject();
 			obj.put("nickname", one.getBoard_comment_nickname());
