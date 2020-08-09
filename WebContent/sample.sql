@@ -1,4 +1,8 @@
-
+delete profile_img;
+create table profile_img(
+seq number primary key,
+my_img varchar2(1000)
+);
 
 
 

@@ -34,4 +34,8 @@ public interface MemberService {
 	void editMemberNoPwd(Member m);
 	
 	void editMemberWithPwd(Member m);
+	
+	void insertProfile(int seq, String img);
+	
+	String searchProfileImg(int seq);
 }

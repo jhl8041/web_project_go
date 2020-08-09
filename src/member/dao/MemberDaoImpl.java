@@ -19,6 +19,65 @@ public class MemberDaoImpl implements MemberDao {
 	public MemberDaoImpl() {
 		db = DBConnect.getInstance();
 	}
+	
+	@Override
+	   public void insertProfile(int seq, String img) {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      
+	      String sql = "insert into profile_img values(?,?)";
+	      try {
+	         conn = db.getConnection();
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setInt(1, seq);
+	         pstmt.setString(2, img);
+	         
+	         pstmt.executeUpdate();
+	      }catch(SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         try {
+	            pstmt.close();
+	            conn.close();
+	         }catch(SQLException e) {
+	            e.printStackTrace();
+	         }
+	      }      
+	   }
+	
+	@Override
+	   public String searchProfile(int seq) {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      
+	      String sql = "select my_img from profile_img where seq = ?";
+	      try {
+	         conn = db.getConnection();
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setInt(1, seq);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         if(rs.next()) {
+					return rs.getString(1);
+	         }
+	         
+	      }catch(SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         try {
+	            pstmt.close();
+	            conn.close();
+	         }catch(SQLException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      return null;
+	   }
+
 
 	@Override
 	public void updatewithid(Member m) {

@@ -18,7 +18,13 @@ public class MemberServiceImpl implements MemberService {
 	public MemberServiceImpl() {
 		dao = new MemberDaoImpl();
 	}
+	
+	@Override
+	   public void insertProfile(int seq, String img) {
+	      dao.insertProfile(seq, img);
+	   }
 
+	
 	@Override
 	public void join(Member m) {
 		dao.insert(m);
@@ -95,6 +101,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void editMemberWithPwd(Member m) {
 		dao.updateWithPwd(m);
+		
+	}
+
+	@Override
+	public String searchProfileImg(int seq) {
+		return dao.searchProfile(seq);
 		
 	}
 	

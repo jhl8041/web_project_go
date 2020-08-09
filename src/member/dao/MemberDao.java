@@ -33,4 +33,8 @@ public interface MemberDao {
 	void updateNoPwd(Member m);
 	
 	void updateWithPwd(Member m);
+	
+	void insertProfile(int seq, String img);
+	
+	String searchProfile(int seq);
 }

@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/main/Main.css">
 <link href="${pageContext.request.contextPath}/AdminPage/css/sb-admin-2.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type="text/javascript" charset="UTF-8">
 /* WRITE */
@@ -313,17 +314,45 @@ function upload_img(){
     $('#file').click();   
  }
  
-  function show_img(psrc){
-     var com = document.getElementById("profile_img_show");
-     
-    picture = new Image();
-    picture.onload = function(){
-       //alert(psrc.value);         
-       //com.src = picture.src;
-    }      
-    //picture.src = psrc.value;
-    //alert(psrc.value);
- }
+function addprofile(){
+	var form = $('#profileform')[0];
+	var formdata = new FormData(form)
+	
+    $.ajax( {
+	    url: 'AddProfileController',
+	    type: 'POST',
+	    enctype: 'multipart/form-data',
+	    data: formdata,
+	    processData: false,
+	    contentType: false,
+	    success : function(datav){
+	    	if (datav=="success"){
+	    		location.reload();
+	        	alert("사진이 추가되었습니다");
+	    	}
+	    	else{
+	    		alert("사진을 추가하지 못했습니다");
+	    	}
+	    	
+	    }
+    });
+}
+$(document).ready(function() {
+	setTimeout(function() { 
+		$.ajax( {
+		    url: 'SearchProfileController',
+		    type: 'POST',
+		    success : function(datav){
+		    	$("#profile_img_show").attr("src",datav);
+		    	$("#profile_img_show2").attr("src",datav);
+		    }
+	    });
+
+	}, 1000);
+	
+});
+
+
 
 </script>
 
@@ -338,7 +367,7 @@ function upload_img(){
     <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/ListPostController?id=0.jsp">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/ListPostController?id=0">
         <div class="sidebar-brand-text mx-3">GO!</div>
       </a>
 
@@ -348,24 +377,17 @@ function upload_img(){
 	     <!-- Nav Item: 프로필섹션 -->
          <li class="nav-item" style="text-align:center">
            <a href="">Welcome, ${userinfo.nickname}</a>
-           <a><img src="image/noimage.png" id="profile_img_show" width="60%" height="75%"></a>
+           <a><img src="image/noimage.png" onerror="this.src='${pageContext.request.contextPath}/image/noimage.png'" id="profile_img_show" width="60%" height="75%"></a>
          </li>
          <li>
-	      <input type="file" id="file" name="profile_img" multiple="multiple" style="display:none;" onchange="show_img(this);"/>
+          <form id=profileform name=profileform>
+	      	<input type="file" id="file" name="profile_img" style="display:none;" onchange="addprofile();"/>
+	      	<input type="text" id="user_seq" name="user_seq" style="display:none;" value='${userinfo.num}'/>
+	      </form>
 	      <button type="button" id="btn-upload" class="btn btn-secondary" onClick="upload_img()"><i class="fa fa-camera"></i></button>
 	     </li>
-      </c:if>
-      <c:if test="${empty userinfo}">
-	      <!-- Nav Item: 프로필섹션 -->
-	      <li class="nav-item" style="text-align:center;">
-	        <input class="btn btn-primary" type=button value=로그인 style="width:100%" onclick="location.href='${pageContext.request.contextPath}/member/LoginForm.jsp'">
-	      </li>
-      </c:if>
-
-      <!-- 가로줄  -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item: 마이 인포 -->
+	     
+	      <!-- Nav Item: 마이 인포 -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="${pageContext.request.contextPath}/MyInfoController">
           <i class="fa fa-fw fa-home"></i>
@@ -412,6 +434,19 @@ function upload_img(){
           </div>
         </div>
       </li>
+	     
+      </c:if>
+      <c:if test="${empty userinfo}">
+	      <!-- Nav Item: 프로필섹션 -->
+	      <li class="nav-item" style="text-align:center;">
+	        <input class="btn btn-primary" type=button value=로그인 style="width:100%" onclick="location.href='${pageContext.request.contextPath}/member/LoginForm.jsp'">
+	      </li>
+      </c:if>
+
+      <!-- 가로줄  -->
+      <hr class="sidebar-divider">
+
+     
 
       <!-- 가로줄 -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -508,7 +543,7 @@ function upload_img(){
 			            <li class="nav-item dropdown no-arrow">
 			              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${userinfo.nickname}</span>
-			                <img class="img-profile rounded-circle" src="image/noimage.png">
+			                <img class="img-profile rounded-circle" id="profile_img_show2" onerror="this.src='${pageContext.request.contextPath}/image/noimage.png'" src="image/noimage.png">
 			              </a>
 			              <!-- Dropdown - User Information -->
 			              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
