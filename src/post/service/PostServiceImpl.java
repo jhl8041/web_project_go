@@ -1,5 +1,6 @@
 package post.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.Comment;
@@ -17,6 +18,11 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public void addComment(int num, String nickname, String content) {
 		dao.updateComment(num, nickname, content);
+	}
+	
+	@Override
+	public void delComment(int pseq, Timestamp date) {
+		dao.deleteComment(pseq, date);
 	}
 
 	@Override

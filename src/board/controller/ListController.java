@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.service.Service;
 import board.service.ServiceImpl;
+import board_comment.service.B_Comment_Service;
+import board_comment.service.B_Comment_ServiceImpl;
 import model.Board;
+import model.Board_comment;
 
 /**
  * Servlet implementation class ListController
@@ -40,20 +43,24 @@ public class ListController extends HttpServlet {
 		request.setCharacterEncoding("euc-kr");
 		response.setContentType("text/html; charset=EUC-KR");
 		response.setCharacterEncoding("euc-kr");
+		
 
 		// 기능을 제공할 서비스 객체 생성
 		Service service = new ServiceImpl();
+		
+		
 		//게시판 종류 코드
 		String board_code = request.getParameter("board_code");
 		//페이지넘버
 		int page = Integer.parseInt(request.getParameter("pageNum"));
+		request.setAttribute("board_code", board_code);
 		
 		// 글 전체 검색 기능 실행
 		ArrayList<Board> list = (ArrayList<Board>) service.getList(board_code,page);
 		
 		//분류된 list를 request에 저장
 		request.setAttribute("list", list);
-		request.setAttribute("board_code", board_code);
+		
 		request.setAttribute("pageNum", page);
 		
 		//페이징처리

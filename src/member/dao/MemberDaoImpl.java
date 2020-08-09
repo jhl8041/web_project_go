@@ -21,6 +21,43 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public void updatewithid(Member m) {
+		Connection conn = null;
+		PreparedStatement pt = null;
+				
+		String sql = "update member_info set member_pwd=?, member_name=?, member_nickname=?, member_phone=?, member_birthdate=?,"
+				+ " member_email=?, member_gender=?, member_address=?, member_pref_code=? where member_id=?";
+		try {
+			conn = db.getConnection();
+			
+			pt = conn.prepareStatement(sql);
+			pt.setString(1, m.getPwd());
+			pt.setString(2, m.getName());
+			pt.setString(3, m.getNickname());
+			pt.setString(4, m.getPhone());
+			pt.setDate(5, m.getBirthdate());
+			pt.setString(6, m.getEmail());
+			pt.setString(7, m.getGender());
+			pt.setString(8, m.getAddress());
+			pt.setString(9, m.getPrefCode());
+			pt.setString(10,m.getId());
+			
+			pt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pt.close();
+				conn.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	@Override
 	public void insert(Member m) {
 		Connection conn = null;
 		PreparedStatement pt = null;

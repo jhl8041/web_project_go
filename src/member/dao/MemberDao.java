@@ -15,6 +15,8 @@ public interface MemberDao {
 	List<Member> selectAll();
 
 	void update(Member m);
+	
+	void updatewithid(Member m);
 
 	void delete(String id);
 	

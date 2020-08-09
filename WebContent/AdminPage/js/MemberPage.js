@@ -61,49 +61,24 @@ function checkDel(){
     });   
 }
 
-function addpost(){
-	var form = $('#jobpostform')[0];
-	var formdata = new FormData(form)
-	
-  $.ajax( {
-    url: 'AddJobPostController',
-    type: 'POST',
-    enctype: 'multipart/form-data',
-    data: formdata,
-    processData: false,
-    contentType: false,
-    success : function(datav){
-    	if (datav=="success"){
-    		location.reload();
-        	alert("공고가 새로 추가되었습니다");
-    	}
-    	else{
-    		alert("공고를 추가하지 못했습니다. 다시 확인해주세요");
-    	}
-    	
-    }
-  });
-}
 
-function editpost(){
-	var postnumStr = $("#postnum").val();
-	var form = $('#jobpostform')[0];
+function editmember(){
+	alert("hh");
+	var id = $("#id").val();
+	var form = $('#memberadminform')[0];
 	var formdata = new FormData(form)
 	
   $.ajax( {
-    url: 'EditJobPostController',
+    url: 'EditAdminMemberController',
     type: 'POST',
-    enctype: 'multipart/form-data',
     data: formdata,
-    processData: false,
-    contentType: false,
     success : function(datav){
     	if (datav=="success"){
     		location.reload();
-        	alert(postnumStr + "번 공고가 수정되었습니다");
+        	alert(id + " 님의 정보가 수정되었습니다");
     	}
     	else{
-    		alert("공고를 수정하지 못했습니다. 다시 확인해주세요");
+    		alert(id + " 님의 정보를 수정하지 못했습니다. 다시 확인해주세요");
     	}
     	
     }

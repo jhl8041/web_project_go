@@ -35,9 +35,9 @@ public class WriteController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// 요청과 응답의 인코딩 설정
-		request.setCharacterEncoding("euc-kr");
-		response.setContentType("text/html; charset=EUC-KR");
-		response.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		response.setCharacterEncoding("utf-8");
 		// 기능을 제공할 서비스 객체 생성
 		Service service = new ServiceImpl();
 		// 세션에서 정보 받아오기
@@ -71,7 +71,7 @@ public class WriteController extends HttpServlet {
 		// 글목록으로 이동
 //		response.sendRedirect("/board/board_view.jsp");
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/board/board_view.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListController?board_code="+ board_code +"&pageNum=1");
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}

@@ -44,7 +44,8 @@ public class AddJobPostController extends HttpServlet {
 		String img = "";
 		
 		//String uploadPath = "C:\\Users\\jhl80\\OneDrive\\문서\\키트리노트\\workspace_web\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\post_img";
-		String uploadPath = "C:\\Users\\kitri\\Desktop\\OneDrive\\문서\\키트리노트\\workspace_project\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\post_img";
+		String uploadPath = "C:\\Users\\jhl80\\Desktop\\workwork\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\post_img";
+		//String uploadPath = "C:\\Users\\kitri\\Desktop\\OneDrive\\문서\\키트리노트\\workspace_project\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\post_img";
 		int maxSize = 1024*1024*10;
 		MultipartRequest multi = null;
 		
@@ -74,6 +75,12 @@ public class AddJobPostController extends HttpServlet {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			java.util.Date datestart = sdf.parse(multi.getParameter("poststart"));
 			java.util.Date dateend = sdf.parse(multi.getParameter("postend"));
+			
+			if (dateend.compareTo(datestart) < 0 ) {
+				System.out.println("dateerr");
+				out.print("dateerr");
+			}
+			
 			java.sql.Date sqlDatestart = new Date(datestart.getTime());
 			java.sql.Date sqlDateend = new Date(dateend.getTime());
 			jp.setPostPeriodStart(sqlDatestart);
@@ -86,6 +93,12 @@ public class AddJobPostController extends HttpServlet {
 				String file1 = (String) files.nextElement();
 				img = multi.getFilesystemName(file1);
 				File file = multi.getFile(file1);
+			}
+			
+			if (multi.getParameter("postcorpname").isEmpty() || multi.getParameter("postname").isEmpty() || multi.getParameter("posturl").isEmpty() || 
+					multi.getParameter("postcontent").isEmpty() || img.isEmpty()) {
+				System.out.println("nullerr");
+				out.print("nullerr");
 			}
 			
 			jp.setPostImg("/post_img/" + img);

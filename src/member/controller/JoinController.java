@@ -71,7 +71,7 @@ public class JoinController extends HttpServlet {
 			
 		service.join(m);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginForm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/member/LoginForm.jsp");
 		if (dispatcher != null)
 			dispatcher.forward(request, response);
 	}

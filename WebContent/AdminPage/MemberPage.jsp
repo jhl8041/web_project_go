@@ -23,7 +23,117 @@
 	
 	<!-- jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/AdminPage/js/MemberPage.js" charset="utf-8"></script>
+	<script charset="utf-8">
+	function all(id){
+		var idStr = id;
+		alert(idStr);
+	}
+
+
+	function putToForm(num){
+	    var numStr = num;
+	    $.ajax({
+	        url : "SearchController",
+	        type : "POST",
+	        data: {num:numStr},
+	        dataType : "json",
+	        success : function(data){
+	        	$("#id").val(data.id); 
+	        	
+	        	$("#name").val(data.name);
+	         	$("#nickname").val(data.nickname);
+	         	$("#phone").val(data.phone);
+	         	$("#birthdate").val(data.birthdate);
+	         	
+	         	//var gen = data.gender;
+	         	$("#gender").val(data.gender).attr("selected","selected");
+	         	$("#email").val(data.email);
+	         	$("#address").val(data.address);
+	         	
+	         	var typeStr = data.type.split("");
+	         	
+	         	if (typeStr[0] == "1") $("#eng").prop("checked", true);
+	         	else $("#eng").prop("checked", false);
+	         	if (typeStr[1] == "1") $("#noneng").prop("checked", true);
+	         	else $("#noneng").prop("checked", false);
+	         	if (typeStr[2] == "1") $("#capital").prop("checked", true);
+	         	else $("#capital").prop("checked", false);
+	         	if (typeStr[3] == "1") $("#noncapital").prop("checked", true);
+	         	else $("#noncapital").prop("checked", false);
+	         	
+	        }
+	    });   
+	}
+
+	function delmember(){
+		var id = $("#id").val();
+		$.ajax({
+	        url : "DelAdminMemberController",
+	        type : "POST",
+	        data : {id:id},
+	        success : function(data){
+	        	if (data=="success"){
+	        		location.reload();
+	            	alert(id +" 님의 계정이 삭제되었습니다");
+	        	}
+	        	else{
+	        		alert("먼저 회원을 선택해주세요"); // 실패 시 처리
+	        	}
+	        }    
+	    });   
+	}
+
+
+	function editmember(){
+		var id = $("#id").val();
+		var pwd = $("#pwd").val();
+		var name = $("#name").val();
+		var gender = $("#gender").val();
+		var nickname = $("#nickname").val();
+		var birthdate = $("#birthdate").val();
+		var addr = $("#address").val();
+		var phone = $("#phone").val();
+		var email = $("#email").val();
+		
+		var eng, noneng, capital, noncapital
+		if (document.getElementById('noneng').checked)
+			noneng = "1";
+		else 
+			noneng = "0";
+		
+		if (document.getElementById('eng').checked)
+			eng = "1";
+		else 
+            eng = "0";
+		
+		if (document.getElementById('capital').checked)
+			capital = "1";
+		else 
+			capital = "0";
+		
+		if (document.getElementById('noncapital').checked)
+			noncapital = "1";
+		else 
+			noncapital = "0";
+		
+	  $.ajax( {
+	    url: 'EditAdminMemberController',
+	    type: 'POST',
+	    data: {id:id, pwd:pwd, name:name, nickname:nickname, gender:gender, birthdate:birthdate, addr:addr, phone:phone, email:email, 
+	    	eng:eng, noneng:noneng, capital:capital, noncapital:noncapital},
+	    success : function(datav){
+	    	if (datav=="success"){
+	    		location.reload();
+	        	alert(id + " 님의 정보가 수정되었습니다");
+	    	}
+	    	else{
+	    		alert(id + " 님의 정보를 수정하지 못했습니다. 입력필드를 다시 확인해주세요 (비밀번호는 공란일 수 없습니다)");
+	    	}
+	    	
+	    }
+	  });
+	}
+	</script>
 
 </head>
 <body id="page-top">
@@ -32,161 +142,141 @@
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
-			<!-- Sidebar - Brand -->
-		    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/AdminPage/AdminPage.jsp">
-		        <div class="sidebar-brand-text mx-3">GO! Admin Page</div>
-		    </a>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/AdminPage/AdminPage.jsp">
+        <div class="sidebar-brand-text mx-3">GO! 관리자페이지</div>
+      </a>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
 
-			<!-- Nav Item - Dashboard -->
-			<li class="nav-item"><a class="nav-link"
-				href="${pageContext.request.contextPath}/AdminPage/AdminPage.jsp"> <i class="fas fa-fw fa-tachometer-alt"></i>
-					<span>대시보드</span></a></li>
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="${pageContext.request.contextPath}/AdminPage/AdminPage.jsp">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>대시보드</span></a>
+      </li>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">관리목록</div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+      	관리목록
+      </div>
 
-			<!-- Nav Item - Pages Collapse Menu -->
-		    <li class="nav-item">
-	        	<a class="nav-link collapsed" href="/project_J/ListJobPostController">
-		          	<i class="fas fa-fw fa-cog"></i>
-		          	<span>공고관리</span>
-		        </a>
-		    </li>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/ListJobPostController">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>공고관리</span>
+        </a>
+      </li>
 
-			<!-- Nav Item - Pages Collapse Menu -->
-		     <li class="nav-item">
-		        <a class="nav-link active" href="${pageContext.request.contextPath}/MemberListController">
-		          	<i class="fas fa-fw fa-cog"></i>
-		          	<span>회원관리</span>
-		        </a>
-		     </li>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item active">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/MemberListController">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>회원관리</span>
+        </a>
+      </li>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">Addons</div>
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
 
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>Pages</span>
-			</a>
-				<div id="collapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Login Screens:</h6>
-						<a class="collapse-item" href="login.html">Login</a> <a
-							class="collapse-item" href="register.html">Register</a> <a
-							class="collapse-item" href="forgot-password.html">Forgot
-							Password</a>
-						<div class="collapse-divider"></div>
-						<h6 class="collapse-header">Other Pages:</h6>
-						<a class="collapse-item" href="404.html">404 Page</a> <a
-							class="collapse-item" href="blank.html">Blank Page</a>
-					</div>
-				</div></li>
+    </ul>
+    <!-- End of Sidebar -->
 
-			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i> <span>Charts</span>
-			</a></li>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link" href="tables.html">
-					<i class="fas fa-fw fa-table"></i> <span>Tables</span>
-			</a></li>
+      <!-- Main Content -->
+      <div id="content">
 
-			<!-- Divider -->
-			<hr class="sidebar-divider d-none d-md-block">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-			<!-- Sidebar Toggler (Sidebar) -->
-			<div class="text-center d-none d-md-inline">
-				<button class="rounded-circle border-0" id="sidebarToggle"></button>
-			</div>
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
 
-		</ul>
-		<!-- End of Sidebar -->
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
 
-		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column">
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
 
-			<!-- Main Content -->
-			<div id="content">
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
 
-				<!-- Topbar -->
-				<nav
-					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자</span>
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
 
-					<!-- Sidebar Toggle (Topbar) -->
-					<button id="sidebarToggleTop"
-						class="btn btn-link d-md-none rounded-circle mr-3">
-						<i class="fa fa-bars"></i>
-					</button>
+          </ul>
 
-					<!-- Topbar Search -->
-					<form
-						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-						<div class="input-group">
-							<input type="text" class="form-control bg-light border-0 small"
-								placeholder="Search for..." aria-label="Search"
-								aria-describedby="basic-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
-							</div>
-						</div>
-					</form>
+        </nav>
+        <!-- End of Topbar -->
 
-					<!-- Topbar Navbar -->
-					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-						<li class="nav-item dropdown no-arrow d-sm-none"><a
-							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-						</a> <!-- Dropdown - Messages -->
-							<div
-								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-								aria-labelledby="searchDropdown">
-								<form class="form-inline mr-auto w-100 navbar-search">
-									<div class="input-group">
-										<input type="text"
-											class="form-control bg-light border-0 small"
-											placeholder="Search for..." aria-label="Search"
-											aria-describedby="basic-addon2">
-										<div class="input-group-append">
-											<button class="btn btn-primary" type="button">
-												<i class="fas fa-search fa-sm"></i>
-											</button>
-										</div>
-									</div>
-								</form>
-							</div></li>
-
-						<!-- Nav Item - Alerts -->
-				
-
-						<div class="topbar-divider d-none d-sm-block"></div>
-
-					</ul>
-
-				</nav>
-				<!-- End of Topbar -->
-
-				<!-- Begin Page Content -->
-				<div class="container-fluid">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
 					<!-- Page Heading -->
 					<div
@@ -202,7 +292,7 @@
 									<h6 class="m-0 font-weight-bold text-primary">회원 추가/수정/탈퇴</h6>
 								</div>
 								<div class="card-body">		
-								<form id=jobpostform name=jobpostform method=post>
+								<form id=memberadminform name=memberadminform method=post>
 									<table style="margin-right:0px">
 									<tr>
 										<td>
@@ -299,9 +389,9 @@
 									</table>	
 									<div class="form-group">
 										<div class="form-inline">
-											<input class="btn btn-primary btn-lg btn-block" style="width:200px;margin:auto" type=button value=회원정보수정 onclick="editpost()">	
+											<input class="btn btn-primary btn-lg btn-block" style="width:200px;margin:auto" type=button value=회원정보수정 onclick="editmember()">	
 											<input class="btn btn-success btn-lg btn-block" style="width:120px;margin:auto" type=reset value=클리어 onclick="clearImg()">
-											<input class="btn btn-danger btn-lg btn-block" style="width:120px;margin:auto" type=button value=회원삭제 onclick="checkDel()">								
+											<input class="btn btn-danger btn-lg btn-block" style="width:120px;margin:auto" type=button value=회원삭제 onclick="delmember()">								
 										</div>
 									</div>
 								</form>	
@@ -312,7 +402,7 @@
 						<div class="col-7" style="min-width:1120px;max-width:1120px">
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">공고 현황</h6>
+									<h6 class="m-0 font-weight-bold text-primary">회원 현황</h6>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
@@ -427,13 +517,10 @@
 	<script src="${pageContext.request.contextPath}/AdminPage/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
-	<script src="${pageContext.request.contextPath}/AdminPage/vendor/chart.js/Chart.min.js"></script>
 	<script src="${pageContext.request.contextPath}/AdminPage/vendor/datatables/jquery.dataTables.min.js"></script>
 	<script src="${pageContext.request.contextPath}/AdminPage/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-	<!-- Page level custom scripts -->
-	<script src="${pageContext.request.contextPath}/AdminPage/js/demo/chart-area-demo.js"></script>
-	<script src="${pageContext.request.contextPath}/AdminPage/js/demo/chart-pie-demo.js"></script>
+
 	<script src="${pageContext.request.contextPath}/AdminPage/js/demo/datatables-demo.js"></script>
 	
 	<!-- 	DatePicker -->

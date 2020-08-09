@@ -117,7 +117,7 @@ public class B_Comment_DaoImpl implements B_Comment_Dao{
 	public void delete(int seq) {
 		Connection conn =null;
 		//seq로 row 삭제하는 sql
-		String sql = "delete board_comments where board_comments_seq =?";
+		String sql = "delete board_comments where board_comment_seq =?";
 		PreparedStatement pstmt=null;
 		try {
 			conn = db.getConnection();

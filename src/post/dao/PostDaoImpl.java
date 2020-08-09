@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import conn.DBConnect;
@@ -20,33 +21,33 @@ public class PostDaoImpl implements PostDao{
 	
 	
 	
-	@Override
-	public ArrayList<Comment> selectCommentBySeq(int num) {
-		Connection conn = null;
-		ArrayList<Comment> list = new ArrayList<Comment>();
-		ResultSet rs = null;
-		String sql = "select * from post_comments where post_comment_seq=?";
-		
-		try {
-			conn = db.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			rs = pstmt.executeQuery();
-	
-			while(rs.next()) {
-				list.add(new Comment(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
-			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
+	   @Override
+	   public ArrayList<Comment> selectCommentBySeq(int num) {
+	      Connection conn = null;
+	      ArrayList<Comment> list = new ArrayList<Comment>();
+	      ResultSet rs = null;
+	      String sql = "select * from post_comments where post_comment_seq=? order by post_comment_sysdate";
+	      
+	      try {
+	         conn = db.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, num);
+	         rs = pstmt.executeQuery();
+	   
+	         while(rs.next()) {
+	            list.add(new Comment(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
+	         }
+	      }catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         try {
+	            conn.close();
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      return list;
+	   }
 
 	@Override
 	public void updateComment(int num, String nickname, String content) {
@@ -236,5 +237,35 @@ public class PostDaoImpl implements PostDao{
 	            e.printStackTrace();
 	         }
 	      }
+	}
+	
+	@Override
+	public void deleteComment(int pseq, Timestamp date) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		String sql = "delete post_comments where post_comment_seq=? and post_comment_sysdate=?";
+
+		try {
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			System.out.println("date:" + date);
+
+			pstmt.setInt(1, pseq);
+			pstmt.setTimestamp(2, date);
+
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

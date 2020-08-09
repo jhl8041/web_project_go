@@ -9,10 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.service.MemberService;
 import member.service.MemberServiceImpl;
 import model.JobPost;
+import model.Member;
 import model.ScrapBook;
 import post.service.PostService;
 import post.service.PostServiceImpl;
@@ -32,11 +34,13 @@ public class ListPostController extends HttpServlet {
 		response.setContentType("text/html; charset=EUC-KR");
 		response.setCharacterEncoding("euc-kr");
 		
+
 		PostService pservice = new PostServiceImpl();
 		MemberService mservice = new MemberServiceImpl();
 		ScrapService sbservice = new ScrapServiceImpl();
 		
-		
+		HttpSession session = request.getSession(false);
+			
 		ArrayList<ScrapBook> sblist = new ArrayList<ScrapBook>();
 		String id = request.getParameter("id");
 		int sbcount = 0;

@@ -1,5 +1,6 @@
 package post.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.Comment;
@@ -18,5 +19,6 @@ public interface PostService {
 	
 	/* COMMENT */
 	void addComment(int num, String nickname, String content);
+	void delComment(int pseq, Timestamp date);
 	ArrayList<Comment> selectCommentBySeq(int num);	
 }

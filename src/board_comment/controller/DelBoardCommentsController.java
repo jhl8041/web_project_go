@@ -45,13 +45,14 @@ public class DelBoardCommentsController extends HttpServlet {
 		// 댓글 파라미터 값 읽기
 		int seq = Integer.parseInt(request.getParameter("b_c_seq"));
 		int p_seq = Integer.parseInt(request.getParameter("b_c_parent_seq"));
+		
 		// 서비스에서 댓글 삭제 메서드 호출
 		b_c_service.delBoardComment(seq);
 		Board b = p_service.getBoard(p_seq);
 		request.setAttribute("b", b);
 
 		// 페이지로 이동
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/board/board_view.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReadController");
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}

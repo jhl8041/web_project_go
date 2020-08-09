@@ -60,24 +60,24 @@ function addpost(){
 	var form = $('#jobpostform')[0];
 	var formdata = new FormData(form)
 	
-  $.ajax( {
-    url: 'AddJobPostController',
-    type: 'POST',
-    enctype: 'multipart/form-data',
-    data: formdata,
-    processData: false,
-    contentType: false,
-    success : function(datav){
-    	if (datav=="success"){
-    		location.reload();
-        	alert("공고가 새로 추가되었습니다");
-    	}
-    	else{
-    		alert("공고를 추가하지 못했습니다. 다시 확인해주세요");
-    	}
-    	
-    }
-  });
+    $.ajax( {
+	    url: 'AddJobPostController',
+	    type: 'POST',
+	    enctype: 'multipart/form-data',
+	    data: formdata,
+	    processData: false,
+	    contentType: false,
+	    success : function(datav){
+	    	if (datav=="success"){
+	    		location.reload();
+	        	alert("공고가 새로 추가되었습니다");
+	    	}
+	    	else{
+	    		alert("공고를 추가하지 못했습니다. 날짜, 이미지, 또는 입력필드를 다시 확인해주세요");
+	    	}
+	    	
+	    }
+    });
 }
 
 function editpost(){
@@ -98,7 +98,7 @@ function editpost(){
         	alert(postnumStr + "번 공고가 수정되었습니다");
     	}
     	else{
-    		alert("공고를 수정하지 못했습니다. 다시 확인해주세요");
+    		alert("공고를 수정하지 못했습니다. 날짜, 이미지, 또는 입력필드를 다시 확인해주세요");
     	}
     	
     }

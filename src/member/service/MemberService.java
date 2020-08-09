@@ -12,6 +12,8 @@ public interface MemberService {
 	Member getMember(String id);
 
 	void editMember(Member m);
+	
+	void editMemberwithid(Member m);
 
 	void delMember(String id);
 	

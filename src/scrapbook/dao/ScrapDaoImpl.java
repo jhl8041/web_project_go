@@ -51,19 +51,19 @@ public class ScrapDaoImpl implements ScrapDao{
 	public void insert(int userSeq, JobPost post) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		String sql = "insert into post_scrap values(?,?,?,?,?,?)";
 		try {
 			conn = db.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setInt(1, userSeq);
 			pstmt.setInt(2, post.getNum());
 			pstmt.setString(3, post.getPostName());
 			pstmt.setString(4, post.getPostUrl());
 			pstmt.setDate(5, post.getPostPeriodStart());
 			pstmt.setDate(6, post.getPostPeriodEnd());
-			
+
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -81,16 +81,16 @@ public class ScrapDaoImpl implements ScrapDao{
 	public void delete(int userSeq, int postSeq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		String sql = "delete post_scrap where scrap_user_seq=? and scrap_parent_seq=?";
-		
+
 		try {
 			conn = db.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setInt(1, userSeq);
 			pstmt.setInt(2, postSeq);
-			
+
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

@@ -63,11 +63,21 @@ integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7
 		<tr height ="100"> 
 			<td colspan="2">분류
 				<font size="15pt">
-					<c:if test="${b.board_code eq 'a'}">수도권</c:if>
-					<c:if test="${b.board_code eq 'b'}">바수도권</c:if>
-					<c:if test="${b.board_code eq 'c'}">문과</c:if>
-					<c:if test="${b.board_code eq 'd'}">이과</c:if>
-					<c:if test="${b.board_code eq 'e'}">자유게시판</c:if>
+					<c:if test="${b.board_code eq 'a'}">
+						<c:set var="code" value="수도권"></c:set>
+					</c:if>
+					<c:if test="${b.board_code eq 'b'}">
+						<c:set var="code" value="비수도권"></c:set>
+					</c:if>
+					<c:if test="${b.board_code eq 'c'}">
+						<c:set var="code" value="문과"></c:set>
+					</c:if>
+					<c:if test="${b.board_code eq 'd'}">
+						<c:set var="code" value="이과"></c:set>
+					</c:if>
+					<c:if test="${b.board_code eq 'e'}">
+						<c:set var="code" value="자유게시판"></c:set>
+					</c:if>
 				</font>
 			</td> 
 			<td colspan="2" align="right">글번호:${b.board_seq }</td>

@@ -52,7 +52,7 @@ public class UpdateLikeBoardController extends HttpServlet {
 		request.setAttribute("b", b);
 		
 		// 메뉴 페이지로 이동
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/board/board_view.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReadController?board_seq="+seq);
 		
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);

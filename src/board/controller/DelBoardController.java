@@ -44,12 +44,13 @@ public class DelBoardController extends HttpServlet {
 
 		// 요청 파라미터 값 읽기
 		int seq = Integer.parseInt(request.getParameter("seq"));
+		String board_code = request.getParameter("board_code");
 
 		// 서비스에서 보드 삭제 메서드 호출
 		service.delBoard(seq);
 
 		// 메뉴 페이지로 이동
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/board/listView.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListController?board_code="+ board_code + "&pageNum=1");
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}

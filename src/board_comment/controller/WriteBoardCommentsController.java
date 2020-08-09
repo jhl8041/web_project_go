@@ -46,15 +46,14 @@ public class WriteBoardCommentsController extends HttpServlet {
 				B_Comment_Service b_c_service = new B_Comment_ServiceImpl();
 				Service p_service = new ServiceImpl();
 				// 세션에서 정보 받아오기
-				HttpSession session = request.getSession();
+				HttpSession session = request.getSession(false);
+				Member m = (Member) session.getAttribute("userinfo");
+				
 				// 작성 정보
 				int board_seq = Integer.parseInt(request.getParameter("board_seq"));
 				
-//				String board_comments_user_id = session.getAttribute("member_id").toString();
-//				String board_comments_writer = session.getAttribute("member_nickname").toString();
-				//임시
-				String board_comments_user_id = "a";
-				String board_comments_writer = "a";
+				String board_comments_user_id = m.getId();
+				String board_comments_writer = m.getNickname();
 				
 				// 요청 파라메터 값 읽기
 				String board_comments_content = request.getParameter("board_comments_content");
@@ -69,7 +68,7 @@ public class WriteBoardCommentsController extends HttpServlet {
 				request.setAttribute("b", b);
 
 				// 글목록으로 이동
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/board/board_view.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ReadController");
 				if (dispatcher != null) {
 					dispatcher.forward(request, response);
 				}	

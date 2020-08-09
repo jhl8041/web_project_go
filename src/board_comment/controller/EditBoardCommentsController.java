@@ -58,7 +58,7 @@ public class EditBoardCommentsController extends HttpServlet {
 		request.setAttribute("b", b);
 
 		// 페이지로 이동
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/board/board_view.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReadController");
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}

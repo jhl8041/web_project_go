@@ -10,6 +10,11 @@ import model.Member;
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 
+	@Override
+	public void editMemberwithid(Member m) {
+		dao.updatewithid(m);	
+	}
+
 	public MemberServiceImpl() {
 		dao = new MemberDaoImpl();
 	}

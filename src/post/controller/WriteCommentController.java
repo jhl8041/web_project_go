@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.servlet.RequestDispatcher;
 import member.service.MemberService;
 import member.service.MemberServiceImpl;
 import model.Comment;
@@ -42,35 +43,27 @@ public class WriteCommentController extends HttpServlet {
 		String content = request.getParameter("content");
 		
 		
-		// comment 추가 
+		// comment
 		Member m = mservice.getMember(mseq);
+		String mnickname = m.getNickname();
+
+		System.out.println(mnickname);
 		
 		System.out.println(m.getNickname() + ":" + content);
-		
+
 		pservice.addComment(pseq, m.getNickname(), content);
-		  
-		// comment list 불러오기 
-		ArrayList<Comment> list = (ArrayList<Comment>)
-		pservice.selectCommentBySeq(pseq);
+		
+		//System.out.println(m.getNickname() + ":" + content);
+		
+		// comment list 
+		ArrayList<Comment> list = (ArrayList<Comment>) pservice.selectCommentBySeq(pseq);
 		  
 		//////////////////////////////////////// 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		PrintWriter out = response.getWriter(); 
-		
-		JSONArray total = new JSONArray();
-		  
-		int idx = 0; 
-		for(Comment one : list) { 
-			JSONObject obj = new JSONObject();
-			obj.put("nickname", one.getBoard_comment_nickname());
-			obj.put("content", one.getBoard_comment_content());
-			obj.put("date", sdf.format(one.getBoard_comment_sysdate()));
-
-			total.add(obj);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListCommentController");
+		if(dispatcher != null) {
+			dispatcher.forward(request, response);
 		}
-		out.print(total);		 
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

@@ -96,7 +96,7 @@ public class JobPostDaoImpl implements JobPostDao {
 		ResultSet rs = null;
 		ArrayList<JobPost> list = null;
 		
-		String sql = "select * from job_post order by post_seq";
+		String sql = "select * from job_post order by post_seq desc";
 		
 		try {
 			conn = db.getConnection();

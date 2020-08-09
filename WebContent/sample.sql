@@ -22,6 +22,7 @@ member_seq number
 );
 insert into member_info values (member_seq.nextval,'helloworld','123','고','고수','0101220300',sysdate,'777@ee.com','여',sysdate,'오소리','0110');
 insert into member_info values (member_seq.nextval,'a','123','고','고수','0101220300',sysdate,'777@ee.com','여',sysdate,'오소리','0110');
+insert into member_info values (member_seq.nextval,'aa','123','고','고수','0101220300',sysdate,'777@ee.com','여',sysdate,'오소리','0110');
 create sequence member_seq;
 
 //상태 테이블
@@ -44,7 +45,7 @@ create table top_img(
 
 //공고 정보
 select * from job_post;
-delete job_post where post_seq=63;
+delete job_post where post_seq != 105;
 drop sequence post_seq;
 create sequence post_seq;
 create table job_post(
@@ -119,7 +120,8 @@ drop sequence board_seq;
 create sequence board_seq;
 create sequence board_comments_seq;
 
-
+select * from post_scrap;
+delete post_scrap;
 create table post_scrap(
 scrap_user_seq number 
 ,scrap_parent_seq number
@@ -130,17 +132,16 @@ scrap_user_seq number
 );
 
 create sequence seq_seq;
-create table calboard(
-seq number
-,id varchar2(20)
-,title varchar2(40)
-,content varchar2(400)
-,mdate varchar2(40)
-,regdate date);
 
-create table postboard(seq number
+delete calpost;
+select * from calpost;
+drop table calpost;
+create table calpost(
+seq number
+,user_seq number
 ,id varchar2(20)
-,postname varchar2(100)
-,posturl varchar2(400)
-,sdate date
-,edate date);
+,posttitle varchar2(100)
+,postcontent varchar2(400)
+,startdate date
+,enddate date
+,regdate date);
